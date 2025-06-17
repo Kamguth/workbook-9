@@ -1,4 +1,4 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+/*package com.pluralsight.NorthwindTradersSpringBoot;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,4 +23,4 @@ public class DatabaseConfig {
 
         return basicDataSource;
     }
-}
+}*/
