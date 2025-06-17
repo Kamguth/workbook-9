@@ -46,7 +46,7 @@ public class JdbcProductDAO implements ProductDAO {
                 Product product = new Product(
                         rs.getInt("ProductID"),
                         rs.getString("ProductName"),
-                        "N/A", // placeholder since no Category exists in DB
+                        "N/A", // placeholder until I figure out why category is giving me issues
                         rs.getDouble("UnitPrice")
                 );
 
