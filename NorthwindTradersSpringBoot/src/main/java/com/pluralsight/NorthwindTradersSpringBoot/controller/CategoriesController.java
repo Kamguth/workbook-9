@@ -1,5 +1,7 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+package com.pluralsight.NorthwindTradersSpringBoot.controller;
 
+import com.pluralsight.NorthwindTradersSpringBoot.dao.CategoryDAO;
+import com.pluralsight.NorthwindTradersSpringBoot.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,4 +27,10 @@ public class CategoriesController {
     public Category getCategoryById(@PathVariable int id) {
         return categoryDAO.getById(id);
     }
+
+    @PostMapping
+    public Category addCategory(@RequestBody Category category) {
+        return categoryDAO.insert(category);
+    }
+
 }

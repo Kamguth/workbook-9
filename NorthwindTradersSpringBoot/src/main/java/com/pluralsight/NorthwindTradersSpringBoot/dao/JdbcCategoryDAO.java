@@ -1,6 +1,6 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+package com.pluralsight.NorthwindTradersSpringBoot.dao;
 
-import com.pluralsight.NorthwindTradersSpringBoot.Category;
+import com.pluralsight.NorthwindTradersSpringBoot.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +24,8 @@ public class JdbcCategoryDAO implements CategoryDAO {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT CategoryID, CategoryName FROM Categories";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+        try (PreparedStatement stmt = dataSource.getConnection().prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 categories.add(new Category(
                         rs.getInt("CategoryID"),
@@ -44,8 +42,8 @@ public class JdbcCategoryDAO implements CategoryDAO {
     @Override
     public Category getById(int id) {
         String sql = "SELECT CategoryID, CategoryName FROM Categories WHERE CategoryID = ?";
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        try (PreparedStatement stmt = dataSource.getConnection().prepareStatement(sql)) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -63,4 +61,22 @@ public class JdbcCategoryDAO implements CategoryDAO {
 
         return null;
     }
+
+    @Override
+    public Category insert(Category category) {
+        String sql = "INSERT INTO Categories (CategoryID, CategoryName) VALUES (?, ?)";
+
+        try (PreparedStatement stmt = dataSource.getConnection().prepareStatement(sql)) {
+
+            stmt.setInt(1, category.getCategoryId());
+            stmt.setString(2, category.getCategoryName());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return category; // return the same object for confirmation
+    }
+
 }

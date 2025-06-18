@@ -1,5 +1,7 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+package com.pluralsight.NorthwindTradersSpringBoot.controller;
 
+import com.pluralsight.NorthwindTradersSpringBoot.dao.ProductDAO;
+import com.pluralsight.NorthwindTradersSpringBoot.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +25,11 @@ public class ProductController {
     public Product getProductById(@PathVariable int id) {
         return productDAO.getById(id);
     }
+
+    @PostMapping("/products")
+    public Product addProduct(@RequestBody Product product) {
+        return productDAO.insert(product);
+    }
+
 
 }

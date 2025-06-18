@@ -1,7 +1,6 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+package com.pluralsight.NorthwindTradersSpringBoot.dao;
 
-import com.pluralsight.NorthwindTradersSpringBoot.Product;
-import com.pluralsight.NorthwindTradersSpringBoot.ProductDAO;
+import com.pluralsight.NorthwindTradersSpringBoot.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,7 @@ public class JdbcProductDAO implements ProductDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, product.getProductId());
             stmt.setString(2, product.getName());
-            stmt.setString(3, product.getCategory());
+            stmt.setInt(3, product.getCategory());
             stmt.setDouble(4, product.getPrice());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -38,7 +37,7 @@ public class JdbcProductDAO implements ProductDAO {
     @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT ProductID, ProductName, UnitPrice FROM Products";
+        String sql = "SELECT ProductID, ProductName, CategoryID, UnitPrice FROM Products";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -46,7 +45,7 @@ public class JdbcProductDAO implements ProductDAO {
                 Product product = new Product(
                         rs.getInt("ProductID"),
                         rs.getString("ProductName"),
-                        "N/A", // placeholder until I figure out why category is giving me issues
+                        rs.getInt("CategoryID"), // placeholder until I figure out why category is giving me issues
                         rs.getDouble("UnitPrice")
                 );
 
@@ -76,7 +75,7 @@ public class JdbcProductDAO implements ProductDAO {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, updatedProduct.getName());
-            stmt.setString(2, updatedProduct.getCategory());
+            stmt.setInt(2, updatedProduct.getCategory());
             stmt.setDouble(3, updatedProduct.getPrice());
             stmt.setInt(4, updatedProduct.getProductId());
             stmt.executeUpdate();
@@ -87,7 +86,7 @@ public class JdbcProductDAO implements ProductDAO {
 
     @Override
     public Product getById(int productId) {
-        String sql = "SELECT ProductID, ProductName, UnitPrice FROM Products WHERE ProductID = ?";
+        String sql = "SELECT * FROM Products WHERE ProductID = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -99,7 +98,7 @@ public class JdbcProductDAO implements ProductDAO {
                 return new Product(
                         rs.getInt("ProductID"),
                         rs.getString("ProductName"),
-                        "N/A", // placeholder for category
+                        rs.getInt("CategoryID"), // placeholder until I figure out why category is giving me issues
                         rs.getDouble("UnitPrice")
                 );
             }
@@ -110,5 +109,27 @@ public class JdbcProductDAO implements ProductDAO {
 
         return null;
     }
+
+    @Override
+    public Product insert(Product product) {
+        String sql = "INSERT INTO Products (ProductID, ProductName, CategoryID, UnitPrice) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, product.getProductId());
+            stmt.setString(2, product.getName());
+            stmt.setInt(3, product.getCategory());
+            stmt.setDouble(4, product.getPrice());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product; // returns the same product object you passed in
+    }
+
+
 
 }

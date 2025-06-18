@@ -1,7 +1,7 @@
 
-package com.pluralsight.NorthwindTradersSpringBoot;
+package com.pluralsight.NorthwindTradersSpringBoot.dao;
 
-import com.pluralsight.NorthwindTradersSpringBoot.Customer;
+import com.pluralsight.NorthwindTradersSpringBoot.model.Customer;
 
 import java.util.List;
 

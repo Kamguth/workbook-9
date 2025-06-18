@@ -1,4 +1,6 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+package com.pluralsight.NorthwindTradersSpringBoot.dao;
+
+import com.pluralsight.NorthwindTradersSpringBoot.model.Product;
 
 import java.util.List;
 
@@ -8,5 +10,6 @@ public interface ProductDAO {
     void delete(int productId);
     void update(Product updatedProduct);
     Product getById(int productId); // helpful for update & validation
+    Product insert(Product product);
 
 }

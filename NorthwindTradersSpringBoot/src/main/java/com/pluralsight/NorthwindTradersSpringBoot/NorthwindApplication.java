@@ -1,9 +1,12 @@
-package com.pluralsight.NorthwindTradersSpringBoot;
+/*package com.pluralsight.NorthwindTradersSpringBoot;
 
+import com.pluralsight.NorthwindTradersSpringBoot.dao.ProductDAO;
+import com.pluralsight.NorthwindTradersSpringBoot.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 @Component
@@ -43,7 +46,7 @@ public class NorthwindApplication implements CommandLineRunner {
                         String name = scanner.nextLine();
 
                         System.out.print("Enter category: ");
-                        String category = scanner.nextLine();
+                        int category = Integer.parseInt(scanner.nextLine());
 
                         System.out.print("Enter price: ");
                         double price = Double.parseDouble(scanner.nextLine());
@@ -84,14 +87,14 @@ public class NorthwindApplication implements CommandLineRunner {
                             //}
 
                             System.out.print("Enter new category [" + existing.getCategory() + "]: ");
-                            String category = scanner.nextLine();
-                            category = category.isEmpty() ? existing.getCategory() : category;
+                            Serializable category = scanner.nextLine();
+                            category = (boolean) category ? existing.getCategory() : category;
 
                             System.out.print("Enter new price [" + existing.getPrice() + "]: ");
                             String priceStr = scanner.nextLine();
                             double price = priceStr.isEmpty() ? existing.getPrice() : Double.parseDouble(priceStr);
 
-                            Product updated = new Product(updateId, name, category, price);
+                            Product updated = new Product(updateId, name, (Integer) category, price);
                             productDAO.update(updated);
                             System.out.println("Product updated.");
                         } else {
@@ -112,4 +115,4 @@ public class NorthwindApplication implements CommandLineRunner {
             }
         }
     }
-}
+}*/
